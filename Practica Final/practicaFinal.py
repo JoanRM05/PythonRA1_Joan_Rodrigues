@@ -2,16 +2,36 @@ import csv
 import os
 from datetime import datetime, date
 
+# /**
+#  * Diccionario en memoria con los clientes indexados por id.
+#  */
 clientes = {}
+# /**
+#  * Diccionario en memoria con los eventos indexados por id.
+#  */
 eventos = {}
+# /**
+#  * Lista con todas las ventas cargadas desde el CSV.
+#  */
 ventas = []
 
+# /** Ruta al CSV de clientes. */
 CLIENTES_FILE = "Practica Final/data/clientes.csv"
+# /** Ruta al CSV de eventos. */
 EVENTOS_FILE = "Practica Final/data/eventos.csv"
+# /** Ruta al CSV de ventas. */
 VENTAS_FILE = "Practica Final/data/ventas.csv"
+# /** Ruta de salida para el informe resumido. */
 INFORME_FILE = "Practica Final/data/informe_resumen.csv"
 
 class Cliente:
+    """/**
+    * Representa un cliente que viene del CSV.
+    * @param id_cliente identificador entero del cliente.
+    * @param nombre nombre completo.
+    * @param email correo electronico validado basico.
+    * @param fecha_alta fecha en la que se dio de alta.
+    */"""
     def __init__(self, id_cliente, nombre, email, fecha_alta):
         self.id = id_cliente
         self.nombre = nombre
@@ -19,6 +39,10 @@ class Cliente:
         self.fecha_alta = fecha_alta
 
     def antiguedad_dias(self):
+        """/**
+        * Calcula cuantos dias han pasado desde la fecha de alta.
+        * @return numero de dias como entero.
+        */"""
         return (date.today() - self.fecha_alta).days
 
     def __str__(self):
@@ -26,6 +50,14 @@ class Cliente:
 
 
 class Evento:
+    """/**
+    * Modelo simple para un evento con categoria y precio.
+    * @param id_evento identificador entero.
+    * @param nombre titulo del evento.
+    * @param categoria familia del evento.
+    * @param fecha fecha del evento como date.
+    * @param precio precio unitario en euros.
+    */"""
     def __init__(self, id_evento, nombre, categoria, fecha, precio):
         self.id = id_evento
         self.nombre = nombre
@@ -34,6 +66,10 @@ class Evento:
         self.precio = precio
 
     def dias_hasta_evento(self):
+        """/**
+        * Calcula cuantos dias faltan para la fecha del evento.
+        * @return dias restantes (puede ser negativo si ya paso).
+        */"""
         return (self.fecha - date.today()).days
 
     def __str__(self):
@@ -41,6 +77,15 @@ class Evento:
 
 
 class Venta:
+    """/**
+    * Representa una venta asociada a cliente y evento.
+    * @param id_venta identificador entero de la venta.
+    * @param cliente_id id del cliente que compra.
+    * @param evento_id id del evento comprado.
+    * @param cantidad numero de entradas.
+    * @param total importe total de la venta.
+    * @param fecha fecha de la venta.
+    */"""
     def __init__(self, id_venta, cliente_id, evento_id, cantidad, total, fecha):
         self.id = id_venta
         self.cliente_id = cliente_id
@@ -54,10 +99,20 @@ class Venta:
 
 
 def parse_fecha(texto):
+    """/**
+    * Convierte una cadena en formato YYYY-MM-DD a objeto date.
+    * @param texto cadena con la fecha a parsear.
+    * @return fecha como objeto date.
+    */"""
     return datetime.strptime(texto.strip(), "%Y-%m-%d").date()
 
 
 def validar_email(texto):
+    """/**
+    * Valida un email de forma muy basica.
+    * @param texto correo a revisar.
+    * @return True si parece valido, False si no.
+    */"""
     if "@" not in texto or texto.count("@") != 1:
         return False
     usuario, dominio = texto.split("@")
@@ -69,6 +124,10 @@ def validar_email(texto):
 
 
 def cargar_datos():
+    """/**
+    * Lee los CSV de clientes, eventos y ventas y llena las colecciones globales.
+    * @return None
+    */"""
     global clientes, eventos, ventas
     clientes = {}
     eventos = {}
@@ -134,6 +193,11 @@ def cargar_datos():
 
 
 def listar(tabla):
+    """/**
+    * Muestra por pantalla el contenido de la tabla solicitada.
+    * @param tabla texto: 'clientes', 'eventos' o 'ventas'.
+    * @return None
+    */"""
     if tabla == 'clientes':
         if not clientes:
             print("No hay clientes para mostrar")
@@ -157,6 +221,11 @@ def listar(tabla):
 
 
 def pedir_fecha(mensaje):
+    """/**
+    * Solicita una fecha al usuario hasta que sea valida.
+    * @param mensaje texto que se muestra por input.
+    * @return objeto date introducido por el usuario.
+    */"""
     while True:
         texto = input(mensaje).strip()
         if not texto:
@@ -169,6 +238,10 @@ def pedir_fecha(mensaje):
 
 
 def siguiente_id_clientes():
+    """/**
+    * Busca el siguiente id disponible para clientes.
+    * @return entero con el nuevo id.
+    */"""
     max_id = 0
     for clave in clientes.keys():
         if clave > max_id:
@@ -191,6 +264,10 @@ def siguiente_id_clientes():
 
 
 def alta_cliente():
+    """/**
+    * Da de alta un cliente nuevo pidiendo los datos por consola.
+    * @return None
+    */"""
     nombre = input("Nombre del cliente: ").strip()
     if not nombre:
         print("El nombre es obligatorio")
@@ -228,6 +305,10 @@ def alta_cliente():
 
 
 def filtrar_ventas_por_rango():
+    """/**
+    * Filtra las ventas por un rango de fechas introducido por el usuario.
+    * @return lista de ventas que cumplan el rango.
+    */"""
     if not ventas:
         print("No hay ventas en memoria")
         return []
@@ -258,6 +339,10 @@ def filtrar_ventas_por_rango():
 
 
 def estadisticas():
+    """/**
+    * Calcula estadisticas generales sobre las ventas y eventos.
+    * @return None
+    */"""
     if not ventas or not eventos:
         print("Carga datos primero")
         return
@@ -315,6 +400,10 @@ def estadisticas():
 
 
 def exportar_informe():
+    """/**
+    * Genera el informe resumen en CSV con totales por evento.
+    * @return None
+    */"""
     if not ventas:
         print("No hay ventas para exportar")
         return
@@ -341,6 +430,10 @@ def exportar_informe():
 
 
 def mostrar_menu():
+    """/**
+    * Enseña el menu principal y devuelve la opcion elegida.
+    * @return cadena con la opcion.
+    */"""
     print("\n--- Menu ---")
     print("1. Cargar datos")
     print("2. Listar clientes")
@@ -355,6 +448,10 @@ def mostrar_menu():
 
 
 def main():
+    """/**
+    * Punto de entrada del programa, mantiene el bucle del menu.
+    * @return None
+    */"""
     opcion = ''
     while opcion != '9':
         opcion = mostrar_menu()
