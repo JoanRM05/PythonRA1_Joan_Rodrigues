@@ -18,7 +18,7 @@ Cuando lo ejecutas, sale un menu en consola con el cual, el usuario puede selecc
 2. Lanza `python practicaFinal.py`.
 3. Sigue las instrucciones del menu.
 
-(Alternativa): Usar el boton de arriba a la derecha "Run Python File" para iniciar la aplicacion.
+(Alternativa): Usar el boton de arriba a la derecha "Run Python File" para iniciar la aplicacion cunado estas dentro del archivo a ejecutar.
 
 ## Archivos que hay
 
