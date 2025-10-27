@@ -1,6 +1,6 @@
 # Practica Final
 
-Esto es un programa en Python que hice para practicar. Va de guardar clientes, eventos y ventas usando unos CSV que estan en la carpeta `data`. 
+Esto es un programa en Python que hice para practicar. Va de guardar clientes, eventos y ventas usando unos CSV que estan en la carpeta `data`.
 Cuando lo ejecutas, sale un menu en consola con el cual, el usuario puede seleccionar que accion desea realizar en cualquier momento.
 
 ## Que hace
@@ -18,7 +18,7 @@ Cuando lo ejecutas, sale un menu en consola con el cual, el usuario puede selecc
 2. Lanza `python practicaFinal.py`.
 3. Sigue las instrucciones del menu.
 
-(Alternativa): Usar el boton de arriba a la derecha "Run Python File" para iniciar la aplicacion cunado estas dentro del archivo a ejecutar.
+!! (Alternativa): Usar el boton de arriba a la derecha "Run Python File" para iniciar la aplicacion cunado estas dentro del archivo a ejecutar. !!
 
 ## Archivos que hay
 
