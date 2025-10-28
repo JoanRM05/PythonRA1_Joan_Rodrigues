@@ -68,38 +68,40 @@ def validar_hora(hora_str):
         return False, None, None
 
 
+def pedir_hora(prompt: str):
+    """
+    Pide una hora HH:MM al usuario hasta que sea válida.
+    Devuelve siempre dos enteros: (hora, minuto)
+    """
+    while True:
+        valor = input(prompt)
+        ok, h, m = validar_hora(valor)
+        if ok and h is not None and m is not None:
+            return h, m
+        print("Formato incorrecto, ingrese la hora en formato HH:MM (Ej: 09:30)")
+
+
 def contar_entradas():
     
     contador = 0
-    while True:
 
-        hora_ref = input("Ingrese la hora de referencia de entrada (00:00 - 23:00): ")
-
-        validar, hora_ref_int, mins_ref_int = validar_hora(hora_ref)
-        
-        """ debugpy.breakpoint() """
-        
-        if validar:
-            break
-        else:
-            print("Formato incorrecto, ingrese la hora en formato HH:MM (Ej: 09:30)")
-            continue
+    hora_ref_int, mins_ref_int = pedir_hora("Ingrese la hora de referencia de entrada (00:00 - 23:59): ")
 
 
     for nombre, (entrada, salida) in horarios.items():
         
         validar, hora_entrada_int, mins_entrada_int = validar_hora(entrada)
 
-        if not validar:
+        if not validar or hora_entrada_int is None or mins_entrada_int is None:
             print(f"Formato incorrecto en la hora de entrada de {nombre}, se esperaba HH:MM")
             continue
 
-        if hora_entrada_int < hora_ref_int:
+        if hora_entrada_int < hora_ref_int: 
             contador += 1
         elif hora_entrada_int == hora_ref_int and mins_entrada_int <= mins_ref_int:
             contador += 1
 
-    print(f"\nNúmero de empleados que han entrado a las {hora_ref_int}:{mins_ref_int} o antes: {contador}\n")
+    print(f"\nNúmero de empleados que han entrado a las {hora_ref_int}:{mins_ref_int:02d} o antes: {contador}\n")
 
     
 if __name__ == '__main__':
