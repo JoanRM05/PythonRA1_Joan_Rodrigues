@@ -101,7 +101,7 @@ def contar_entradas():
         elif hora_entrada_int == hora_ref_int and mins_entrada_int <= mins_ref_int:
             contador += 1
 
-    print(f"\nNúmero de empleados que han entrado a las {hora_ref_int}:{mins_ref_int:02d} o antes: {contador}\n")
+    print(f"\nNúmero de empleados que han entrado a las {hora_ref_int:02d}:{mins_ref_int:02d} o antes: {contador}\n")
 
     
 if __name__ == '__main__':
